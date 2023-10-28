@@ -1,0 +1,41 @@
+logging:
+  level:
+    blog: WARN
+    org: WARN
+    org.hibernate.SQL: DEBUG
+server:
+  port: ${SERVER_PORT:8080}
+  address: ${SERVER_ADDRESS:192.168.17.160}
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/slash_db?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: ${MYSQL_USER:root_softuni}
+    password: 1234
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 10MB
+
+
+bugwriters:
+  app:
+    jwtCookieName: BugWriters
+    jwtExpirationMs: 300000
+    jwtSecret: 0713d07cd82977b5de4dba918140019fbfecf9883b13ea58f7f2c54f121bb06a
+    STRIPE_SECRET_KEY: sk_test_51O5pkdArrM9iT4QpflxHuNFtF65lgnqbtfR86KMXh1KxncKKFyzN3iAiTpRG67qzyXwK9tvv1ALwXwpLkI7A8gYR00EOlLLxNw
+    PUBLISHABLE_KEY: pk_test_51O5pkdArrM9iT4QpZBIf1XIsTvnzV5dzy33ShQoanTivmxfPTon78yUTAgiz2W46zSluS3Xk9ilJIwWYxpTIGPMF00zpIUhhfQ
