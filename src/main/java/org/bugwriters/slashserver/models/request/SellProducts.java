@@ -7,6 +7,7 @@ public class SellProducts {
     String productName;
     BigDecimal price;
     BigDecimal quantity;
+    String ownerName;
 
     public SellProducts() {
     }
@@ -17,6 +18,15 @@ public class SellProducts {
 
     public SellProducts setProductName(String productName) {
         this.productName = productName;
+        return this;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public SellProducts setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
         return this;
     }
 

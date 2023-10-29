@@ -5,7 +5,7 @@ logging:
     org.hibernate.SQL: DEBUG
 server:
   port: ${SERVER_PORT:8080}
-  address: ${SERVER_ADDRESS:192.168.17.160}
+  address: ${SERVER_ADDRESS:192.168.133.171}
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -35,7 +35,7 @@ spring:
 bugwriters:
   app:
     jwtCookieName: BugWriters
-    jwtExpirationMs: 300000
+    jwtExpirationMs: 3600000
     jwtSecret: 0713d07cd82977b5de4dba918140019fbfecf9883b13ea58f7f2c54f121bb06a
     STRIPE_SECRET_KEY: sk_test_51O5pkdArrM9iT4QpflxHuNFtF65lgnqbtfR86KMXh1KxncKKFyzN3iAiTpRG67qzyXwK9tvv1ALwXwpLkI7A8gYR00EOlLLxNw
     PUBLISHABLE_KEY: pk_test_51O5pkdArrM9iT4QpZBIf1XIsTvnzV5dzy33ShQoanTivmxfPTon78yUTAgiz2W46zSluS3Xk9ilJIwWYxpTIGPMF00zpIUhhfQ

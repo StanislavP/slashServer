@@ -2,9 +2,15 @@ package org.bugwriters.slashserver.web.controllers.rest;
 
 import jakarta.validation.Valid;
 import org.bugwriters.slashserver.models.entity.ProductEntity;
+import org.bugwriters.slashserver.models.entity.SellEntity;
 import org.bugwriters.slashserver.models.request.ProductRequest;
 import org.bugwriters.slashserver.models.request.SellRequest;
 import org.bugwriters.slashserver.models.response.MessageResponse;
+import org.bugwriters.slashserver.repository.ProductRepository;
+import org.bugwriters.slashserver.repository.ProductTypeRepository;
+import org.bugwriters.slashserver.repository.SellRepository;
+import org.bugwriters.slashserver.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,28 +23,44 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/sell")
 public class SellController {
+    UserRepository userRepository;
+    ProductRepository productRepository;
+    ProductTypeRepository productTypeRepository;
+    SellRepository sellRepository;
 
-//    @PostMapping("")
-//    @PreAuthorize("hasRole('BUSINESS')")
-//    public ResponseEntity<?> sellProduct(@Valid @RequestBody SellRequest sellRequest) {
-//
-//        if (productRepository.existsByName(productRequest.getName())) {
-//            return ResponseEntity.badRequest().body(new MessageResponse("Error: Product name is already in use!"));
-//        }
-//        if (!userRepository.findByEmail(productRequest.getClientName()).isPresent()) {
-//            return ResponseEntity.badRequest().body(new MessageResponse("Error: Wrong user name!"));
-//        }
-//        var new_prod = new ProductEntity();
-//        new_prod.setName(productRequest.getName());
-//        new_prod.setDescription(productRequest.getDescription());
-//        new_prod.setDuration(productRequest.getDuration());
-//        new_prod.setDiscount(productRequest.getDiscount());
-//        new_prod.setPrice(productRequest.getPrice());
-//        new_prod.setCreatedDate(new Date());
-//        new_prod.setUser(userRepository.findByEmail(productRequest.getClientName()).get());
-//        new_prod.setProductType(productTypeRepository.findByProductType(productRequest.getProductType()).get());
-//
-//        productRepository.saveAndFlush(new_prod);
-//        return ResponseEntity.ok(new MessageResponse("Product add successfully!"));
-//    }
+
+    @Autowired
+    public SellController(UserRepository userRepository, ProductRepository productRepository,ProductTypeRepository productTypeRepository,SellRepository sellRepository) {
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.productTypeRepository = productTypeRepository;
+        this.sellRepository = sellRepository;
+    }
+
+    @PostMapping("")
+    @PreAuthorize("hasRole('BUSINESS')")
+    public ResponseEntity<?> sellProduct(@Valid @RequestBody SellRequest sellRequest) {
+
+        sellRequest.getSellProductsList().forEach(
+                sellProducts -> {
+
+                    if (productRepository.existsByName(sellProducts.getProductName())  ) {
+//                        return ResponseEntity.badRequest().body(new MessageResponse("Error: Product name is already in use!"));
+
+
+                    var product = productRepository.findByName(sellProducts.getProductName());
+                    var sell  = new SellEntity();
+                    sell.setPrice(sellProducts.getPrice());
+                    sell.setQuantity(sellProducts.getQuantity());
+                    sell.setProduct(product);
+                    sellRepository.saveAndFlush(sell);
+                    productRepository.saveAndFlush(product);
+
+                    }
+                }
+
+        );
+
+        return ResponseEntity.ok(new MessageResponse("Product add successfully!"));
+    }
 }

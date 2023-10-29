@@ -3,6 +3,7 @@ package org.bugwriters.slashserver.models.request;
 import java.util.List;
 
 public class SellRequest {
+
     List<SellProducts> sellProductsList;
 
     public SellRequest(List<SellProducts> sellProductsList) {

@@ -152,6 +152,37 @@ public class ProductController {
         return ResponseEntity.ok(response_product);
     }
 
+//    @GetMapping("/{name}")
+//    @PreAuthorize("hasRole('CLIENT') or hasRole('BUSINESS')")
+//    public ResponseEntity<?> getProductByName( @PathVariable String name) {
+//
+//
+//        if (!userRepository.findByName(name).isPresent()) {
+//            return ResponseEntity.ok(new ProductsResponse().setProductsResponse(new ArrayList<ProductResponse>()));
+//        }
+//        var user = userRepository.findByName(name).get();
+//
+//        var products = productRepository.findAllByUser_Email(user.getEmail());
+//        var response_products =  new ArrayList<ProductResponse>();
+//        products.forEach(
+//                productEntity -> {
+//                    response_products.add(new ProductResponse()
+//                            .setId(productEntity.getId())
+//                            .setName(productEntity.getName())
+//                            .setPrice(productEntity.getPrice())
+//                            .setDescription(productEntity.getDescription())
+//                            .setDuration(productEntity.getDuration())
+//                            .setDiscount(productEntity.getDiscount())
+//                            .setType(productEntity.getProductType().getProductType().name())
+//                            .setOwnerName(productEntity.getUser().getName()));
+//                }
+//        );
+//
+//        var products_final = new ProductsResponse();
+//        products_final.setProductsResponse(response_products);
+//        return ResponseEntity.ok(products_final);
+//    }
+
 
     @PostMapping("/mine")
     @PreAuthorize("hasRole('CLIENT') or hasRole('BUSINESS')")

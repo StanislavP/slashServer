@@ -4,16 +4,16 @@ import java.util.List;
 
 public class UsersBusinessResponse {
 
-    List<String> clients;
+    List<BusinessResponse> clients;
 
     public UsersBusinessResponse() {
     }
 
-    public List<String> getClients() {
+    public List<BusinessResponse> getClients() {
         return clients;
     }
 
-    public UsersBusinessResponse setClients(List<String> clients) {
+    public UsersBusinessResponse setClients(List<BusinessResponse> clients) {
         this.clients = clients;
         return this;
     }
