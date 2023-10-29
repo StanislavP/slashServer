@@ -1,11 +1,11 @@
 package org.bugwriters.slashserver.web.controllers.rest;
 
-import jakarta.validation.Valid;
 import org.bugwriters.slashserver.enums.UserRoles;
-import org.bugwriters.slashserver.models.request.MyProductsRequest;
-import org.bugwriters.slashserver.models.response.*;
+import org.bugwriters.slashserver.models.response.BusinessResponse;
+import org.bugwriters.slashserver.models.response.ProductResponse;
+import org.bugwriters.slashserver.models.response.ProductsResponse;
+import org.bugwriters.slashserver.models.response.UsersBusinessResponse;
 import org.bugwriters.slashserver.repository.ProductRepository;
-import org.bugwriters.slashserver.repository.ProductTypeRepository;
 import org.bugwriters.slashserver.repository.RoleRepository;
 import org.bugwriters.slashserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/business")
@@ -59,15 +57,10 @@ public class BusinessController {
     @PreAuthorize("hasRole('CLIENT') or hasRole('BUSINESS')")
     public ResponseEntity<?> getProducts( @PathVariable String id ) {
         if (!userRepository.findById(Long.parseLong(id)).isPresent()) {
-//            return ResponseEntity.badRequest().body(new MessageResponse("Error: Wrong user name!"));
             return ResponseEntity.ok(new ProductsResponse().setProductsResponse(new ArrayList<ProductResponse>()));
         }
 
-//        var products = productRepository.findAllByUser_Name(myProductsRequest.getName());
-//
-//        var products_final = new ProductsResponse();
-//        products_final.setProductsResponse(products);
-//
+
         var user = userRepository.findById(Long.parseLong(id)).get();
 
         var products = productRepository.findAllByUser_Email(user.getEmail());

@@ -2,7 +2,6 @@ package org.bugwriters.slashserver.web.controllers.rest;
 
 import jakarta.validation.Valid;
 import org.bugwriters.slashserver.models.entity.ProductEntity;
-import org.bugwriters.slashserver.models.request.DeleteProduct;
 import org.bugwriters.slashserver.models.request.MyProductsRequest;
 import org.bugwriters.slashserver.models.request.ProductRequest;
 import org.bugwriters.slashserver.models.response.MessageResponse;
@@ -11,7 +10,6 @@ import org.bugwriters.slashserver.models.response.ProductsResponse;
 import org.bugwriters.slashserver.repository.ProductRepository;
 import org.bugwriters.slashserver.repository.ProductTypeRepository;
 import org.bugwriters.slashserver.repository.UserRepository;
-import org.bugwriters.slashserver.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 360000)
 @RestController
@@ -80,11 +77,7 @@ public class ProductController {
         edit_product.setCreatedDate(new Date());
         edit_product.setProductType(productTypeRepository.findByProductType(productRequest.getProductType()).get());
         productRepository.saveAndFlush(edit_product);
-//
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.toList());
-//
+
         return ResponseEntity.ok(new MessageResponse("Product edit successfully!"));
     }
 
@@ -152,50 +145,12 @@ public class ProductController {
         return ResponseEntity.ok(response_product);
     }
 
-//    @GetMapping("/{name}")
-//    @PreAuthorize("hasRole('CLIENT') or hasRole('BUSINESS')")
-//    public ResponseEntity<?> getProductByName( @PathVariable String name) {
-//
-//
-//        if (!userRepository.findByName(name).isPresent()) {
-//            return ResponseEntity.ok(new ProductsResponse().setProductsResponse(new ArrayList<ProductResponse>()));
-//        }
-//        var user = userRepository.findByName(name).get();
-//
-//        var products = productRepository.findAllByUser_Email(user.getEmail());
-//        var response_products =  new ArrayList<ProductResponse>();
-//        products.forEach(
-//                productEntity -> {
-//                    response_products.add(new ProductResponse()
-//                            .setId(productEntity.getId())
-//                            .setName(productEntity.getName())
-//                            .setPrice(productEntity.getPrice())
-//                            .setDescription(productEntity.getDescription())
-//                            .setDuration(productEntity.getDuration())
-//                            .setDiscount(productEntity.getDiscount())
-//                            .setType(productEntity.getProductType().getProductType().name())
-//                            .setOwnerName(productEntity.getUser().getName()));
-//                }
-//        );
-//
-//        var products_final = new ProductsResponse();
-//        products_final.setProductsResponse(response_products);
-//        return ResponseEntity.ok(products_final);
-//    }
-
-
     @PostMapping("/mine")
     @PreAuthorize("hasRole('CLIENT') or hasRole('BUSINESS')")
     public ResponseEntity<?> getProducts(@Valid @RequestBody MyProductsRequest myProductsRequest ) {
         if (!userRepository.findByEmail(myProductsRequest.getName()).isPresent()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Wrong user name!"));
         }
-
-//        var products = productRepository.findAllByUser_Name(myProductsRequest.getName());
-//
-//        var products_final = new ProductsResponse();
-//        products_final.setProductsResponse(products);
-//
 
 
         var products = productRepository.findAllByUser_Email(myProductsRequest.getName());

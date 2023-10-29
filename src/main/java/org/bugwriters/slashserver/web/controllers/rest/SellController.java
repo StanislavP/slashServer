@@ -45,8 +45,6 @@ public class SellController {
                 sellProducts -> {
 
                     if (productRepository.existsByName(sellProducts.getProductName())  ) {
-//                        return ResponseEntity.badRequest().body(new MessageResponse("Error: Product name is already in use!"));
-
 
                     var product = productRepository.findByName(sellProducts.getProductName());
                     var sell  = new SellEntity();
